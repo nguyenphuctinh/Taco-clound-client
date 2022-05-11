@@ -31,7 +31,7 @@ public class DesignTacoController {
 	public void addIngredientsToModel(Model model) {
 		List<Ingredient> ingredients =
 
-				Arrays.asList(rest.getForObject("http://localhost:8081/ingredients",Ingredient[].class));
+				Arrays.asList(rest.getForObject("http://localhost:8081/ingredients", Ingredient[].class));
 		Type[] types = Ingredient.Type.values();
 		for (Type type : types) {
 
