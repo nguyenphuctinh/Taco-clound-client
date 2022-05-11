@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
+
 import lombok.extern.slf4j.Slf4j;
 import tacos.Taco;
 import tacos.data.IngredientRepository;
@@ -30,8 +32,7 @@ public class DesignTacoController {
 	public void addIngredientsToModel(Model model) {
 		List<Ingredient> ingredients =
 
-				Arrays.asList(rest.getForObject("http://localhost:8081/
-				ingredients",Ingredient[].class));
+				Arrays.asList(rest.getForObject("http://localhost:8081/ingredients",Ingredient[].class));
 		Type[] types = Ingredient.Type.values();
 		for (Type type : types) {
 
