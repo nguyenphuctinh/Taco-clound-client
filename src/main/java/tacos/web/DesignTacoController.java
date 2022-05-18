@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +49,19 @@ public class DesignTacoController {
 	}
 
 	@PostMapping
-	public String processDesign(@Valid Taco taco, Errors errors) {
-		if (errors.hasErrors()) {
-			return "design";
-		}
-		// Save the taco design...
-		// We'll do this in later
-		log.info("Processing design: " + taco);
-		return "redirect:/orders/current";
+	public String processDesign(@RequestParam("ingredients") String
+	ingredientIds, @RequestParam("name") String name) {
+	List<Ingredient> ingredients = new ArrayList<Ingredient>();
+	for (String ingredientId : ingredientIds.split(",")) {
+	Ingredient ingredient = rest.getForObject("http://localhost:8081/ingredients/{id}",Ingredient.class, ingredientId);
+	ingredients.add(ingredient);
+	}
+	Taco taco = new Taco();
+	taco.setName(name);
+	taco.setIngredients(ingredients);
+	System.out.println(taco);
+	rest.postForObject("http://localhost:8081/design", taco, Taco.class);
+	return "redirect:/orders/current";
 	}
 
 	private List<Ingredient> filterByType(List<Ingredient> ingredients, Type type) {

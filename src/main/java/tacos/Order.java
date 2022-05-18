@@ -1,6 +1,7 @@
 package tacos;
 
-import java.sql.Date;
+
+import java.util.Date;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
